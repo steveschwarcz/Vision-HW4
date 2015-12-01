@@ -4,12 +4,12 @@
 % window when matching textures.
 
 % Initialize an unfilled image
-I = zeros([height, width]);
+I = zeros([height, width, size(S, 3)]);
 
 % Filled neighbors holds at each index the number of filled 
 % neighbors for each pixel. Negative values mean the pixel itself
 % has been filled.
-filled_neighbors = zeros(size(I));
+filled_neighbors = zeros(size(I, 1), size(I, 2));
 
 % Seed the upper left of the image with some filled pixels.
 xS = randi([0 (size(S, 1) - 3)], 1);
@@ -17,7 +17,7 @@ yS = randi([0 (size(S, 2) - 3)], 1);
 
 for i = 1:3
     for j = 1:3
-        I(i, j) = S(xS + i, yS + j);
+        I(i, j, :) = S(xS + i, yS + j, :);
         filled_neighbors = fillpixel(i, j, filled_neighbors);
     end
 end

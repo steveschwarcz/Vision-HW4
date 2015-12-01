@@ -5,8 +5,8 @@ function [ T, M ] = maketemplate( x, y, filled_neighbors, I, w )
 % added to M. The value w is the height and width of M and T.
 
 % Initialize variables.
-T = zeros([w, w]);
-M = T; 
+T = zeros([w, w, size(I, 3)]);
+M = zeros([w, w]); 
 
 n = floor(w / 2);
 
@@ -22,7 +22,7 @@ for i = -n:n
                 && yIdx > 0 ...
                 && filled_neighbors(xIdx, yIdx) < 0
             M(i + n + 1, j + n + 1) = 1;
-            T(i + n + 1, j + n + 1) = I(xIdx, yIdx);
+            T(i + n + 1, j + n + 1, :) = I(xIdx, yIdx, :);
         end
     end
 end
