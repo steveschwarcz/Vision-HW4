@@ -11,7 +11,7 @@ threshold = min(min(D)) * 1.1;
 % Extra check to handle very small negative approximations of 
 % zero, which can happen if an ssd value should be 0.
 if threshold < 0
-    threshold = 0;
+    threshold = 1e-4;
 end
 
 matches = D <= threshold;
