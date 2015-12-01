@@ -29,3 +29,8 @@ M2 = [1 1 1;
     0 0 1];
 
 matches2 = findmatches(S, T2, M2);
+
+window = 7;
+image = growimage(100, 100, S, window);
+
+figure, imshow(image);

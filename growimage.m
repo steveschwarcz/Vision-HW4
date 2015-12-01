@@ -1,15 +1,49 @@
-function [ image ] = growimage( S, I, window )
-%GROWIMAGE Grows an image from a sample image
+ function [ I ] = growimage( height, width, S, w )
+%GROWIMAGE Grows a new image of specified height and width from a 
+% sample image S.  The value w determines the size of the template 
+% window when matching textures.
 
 % Initialize an unfilled image
-image = -1 * ones(size(I));
+I = zeros([height, width]);
 
-% Seed the new image with a random piese of the original image
-image(rand
+% Filled neighbors holds at each index the number of filled 
+% neighbors for each pixel. Negative values mean the pixel itself
+% has been filled.
+filled_neighbors = zeros(size(I));
 
-while min(min(image)) == -1
+% Seed the upper left of the image with some filled pixels.
+xS = randi([0 (size(S, 1) - w)], 1);
+yS = randi([0 (size(S, 2) - w)], 1);
+
+for i = 1:w
+    for j = 1:w
+        I(i, j) = S(xS + i, yS + j);
+        filled_neighbors = fillpixel(i, j, filled_neighbors);
+    end
+end
+
+while max(max(filled_neighbors)) > 0 
+    % Sort filled neighbors by largest first
+    neighbors = sort(find(filled_neighbors > 1), 'descend');
     
+    % Populate each neighbor
+    for i = 1:size(neighbors, 1)
+        [x, y] = ind2sub(size(I), neighbors(i));
+        
+        % Get the template and mask from the filled in neighbors
+        [T, M] = maketemplate(x, y, filled_neighbors, I, w);
+        
+        % Find the best matches
+        best_matches = findmatches(S, T, M);
+        
+        % Pick a best match index at random
+        best_match = datasample(find(best_matches), 1);
+        
+        % Fill this pixel with the best match
+        [xS, yS] = ind2sub(size(S), best_match);
+        I(x, y) = S(xS, yS);
+        filled_neighbors = fillpixel(x, y, filled_neighbors);
+    end;
 end;
 
 end
-

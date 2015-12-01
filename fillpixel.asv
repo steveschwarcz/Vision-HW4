@@ -1,0 +1,24 @@
+function [ filled_neighbors ] = fillpixel( x, y, filled_neighbors )
+%FILLPIXEL Summary of this function goes here
+%   Detailed explanation goes here
+
+% Update all the neighbors to inform them that the pixel is filled
+for i = -1:1
+    for j = -1:1
+        xIdx = x + i;
+        yIdx = y+ j;
+        
+        % Check bounds
+        if xIdx <= size(filled_neighbors, 1) && xIdx > 0 ...
+                && yIdx <= size(filled_neighbors, 1) && xIdx > 0
+            filled_neighbors(xIdx, yIdx) = ...
+                filled_neighbors(xIdx, yIdx) + 1;
+        end
+    end
+end
+
+% Set the current filled value low enough that it won't be used again
+filled_neighbors(x, y) = -100;
+
+end
+
