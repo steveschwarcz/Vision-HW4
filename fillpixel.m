@@ -1,4 +1,4 @@
- function [ filled_neighbors ] = fillpixel( x, y, filled_neighbors )
+ function [ filled_neighbors ] = fillpixel( x, y, filled_neighbors, w )
 %FILLPIXEL Updates the value of all adjacent pixels to the one at 
 % (x, y) to indicate that the pixel at (x, y) has been filled.  
 % Negative values of filled_neighbors indecies are filled 

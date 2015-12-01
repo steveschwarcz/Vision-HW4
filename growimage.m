@@ -21,7 +21,7 @@ for i = 1:3
         yIdx = floor(width / 2) + j;
         
         I(xIdx, yIdx) = S(xS + i, yS + j);
-        filled_neighbors = fillpixel(xIdx, yIdx, filled_neighbors);
+        filled_neighbors = fillpixel(xIdx, yIdx, filled_neighbors, w);
     end
 end
 
@@ -50,7 +50,7 @@ while max(max(filled_neighbors)) > 0
         % Fill this pixel with the best match
         [xS, yS] = ind2sub(size(S), best_match);
         I(x, y) = S(xS, yS);
-        filled_neighbors = fillpixel(x, y, filled_neighbors);
+        filled_neighbors = fillpixel(x, y, filled_neighbors, w);
         
         % Update progress
         processed_pixels = processed_pixels + 1;
