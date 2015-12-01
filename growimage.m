@@ -12,11 +12,11 @@ I = zeros([height, width]);
 filled_neighbors = zeros(size(I));
 
 % Seed the upper left of the image with some filled pixels.
-xS = randi([0 (size(S, 1) - w)], 1);
-yS = randi([0 (size(S, 2) - w)], 1);
+xS = randi([0 (size(S, 1) - 3)], 1);
+yS = randi([0 (size(S, 2) - 3)], 1);
 
-for i = 1:w
-    for j = 1:w
+for i = 1:3
+    for j = 1:3
         I(i, j) = S(xS + i, yS + j);
         filled_neighbors = fillpixel(i, j, filled_neighbors);
     end
