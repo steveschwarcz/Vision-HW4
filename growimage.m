@@ -27,6 +27,8 @@ end
 
 % Set up a waitbar for showing progress
 h = waitbar(0,'Generating new texture...');
+cleaner = onCleanup(@() close(h));
+
 total_pixels = width * height;
 processed_pixels = 0;
 
@@ -58,8 +60,5 @@ while max(max(filled_neighbors)) > 0
     end;
     
 end;
-
-% Close waitbar
-close(h)
 
 end
