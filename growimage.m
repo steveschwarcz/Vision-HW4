@@ -17,10 +17,18 @@ yS = randi([0 (size(S, 2) - 3)], 1);
 
 for i = 1:3
     for j = 1:3
-        I(i, j, :) = S(xS + i, yS + j, :);
-        filled_neighbors = fillpixel(i, j, filled_neighbors);
+        xIdx = floor(height / 2) + i;
+        yIdx = floor(width / 2) + j;
+        
+        I(xIdx, yIdx, :) = S(xS + i, yS + j);
+        filled_neighbors = fillpixel(xIdx, yIdx, filled_neighbors, w);
     end
 end
+
+% Set up a waitbar for showing progress
+h = waitbar(0,'Generating new texture...');
+total_pixels = width * height;
+processed_pixels = 0;
 
 while max(max(filled_neighbors)) > 0 
     % Sort filled neighbors by largest first
@@ -42,8 +50,16 @@ while max(max(filled_neighbors)) > 0
         % Fill this pixel with the best match
         [xS, yS] = ind2sub(size(S), best_match);
         I(x, y) = S(xS, yS);
-        filled_neighbors = fillpixel(x, y, filled_neighbors);
+        filled_neighbors = fillpixel(x, y, filled_neighbors, w);
+        
+        % Update progress
+        processed_pixels = processed_pixels + 1;
+        waitbar(processed_pixels / total_pixels);
     end;
+    
 end;
+
+% Close waitbar
+close(h)
 
 end
